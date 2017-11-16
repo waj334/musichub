@@ -8,6 +8,7 @@ export const AUDIO_LOAD = 'AUDIO_LOAD';
 export const AUDIO_LOAD_SUCCESS = 'AUDIO_LOAD_SUCCESS';
 export const AUDIO_LOAD_ERR = 'AUDIO_LOAD_ERR';
 export const AUDIO_PLAY = 'AUDIO_PLAY';
+export const AUDIO_PAUSE = 'AUDIO_PAUSE';
 export const AUDIO_NEXT = 'AUDIO_NEXT';
 export const AUDIO_PREV = 'AUDIO_PREV';
 

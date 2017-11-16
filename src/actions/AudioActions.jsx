@@ -1,24 +1,26 @@
 import * as Constants from '../Constants';
-import * as AudioPlayer from 'web-audio-player';
+import * as Howler from 'howler';
 
-function audioLoad(url) {
+export function audioLoad(url, player=null) {
     return {
         type: Constants.AUDIO_LOAD,
         isReady: false,
-        URL: url,
-        player: null
+        url: url,
+        player: player,
+        track: {}
     }
 }
 
-function audioLoadSuccess(player) {
+export function audioLoadSuccess(player, track) {
     return {
         type: Constants.AUDIO_LOAD_SUCCESS,
         isReady: true,
-        player: player
+        player: player,
+        track: track,
     }
 }
 
-function audioLoadErr(message) {
+export function audioLoadErr(message) {
     return {
         type: Constants.AUDIO_LOAD_ERR,
         isReady: false,
@@ -26,29 +28,63 @@ function audioLoadErr(message) {
     }
 }
 
-function audioPlay(state) {
+export function audioPlay(state) {
     return {
         type: Constants.AUDIO_PLAY,
         state
     }
 }
 
-function loadAudio(url) {
-    dispatch(audioLoad(url))
-
-    var player = AudioPlayer.createPlayer(url);
-
-    player.on('load', () => {
-        dispatchEvent(audioLoadSuccess(player))
-    });
+export function audioPause(state) {
+    return {
+        type: Constants.AUDIO_PAUSE,
+        state
+    }
 }
 
-function playAudio(player) {
-    //Play this player
-    player.play()
+export function loadAudio(track_info) {
+    console.log('loadAudio', track_info)
+    return (dispatch) => {
+        dispatch(audioLoad(track_info.src))
+        
+        global.Howler.unload();
 
-    //Signal UI
-    dispatchEvent(audioPlay({
-        status: Constants.PLAYER_PLAYING
-    }))
+        var player = new Howler.Howl({
+            src: [track_info.src],
+            html5: true
+        })
+
+        player.on('load', () => {
+            dispatch(audioLoadSuccess(player, track_info));
+            dispatch(playAudio(player, track_info));
+        });
+
+        player.load();
+    }
+}
+
+export function playAudio(player, track_info) {
+    return (dispatch) => {
+        //Play this player
+        player.play()
+
+        //Signal UI
+        console.log("Playing", player)
+        dispatch(audioPlay({
+            status: Constants.PLAYER_PLAYING,
+            player: player,
+            track: track_info
+        }))
+    }
+}
+
+export function pauseAudio(player, track_info) {
+    return (dispatch) => {
+        player.pause();
+        dispatch(audioPause({
+            status: Constants.PLAYER_PAUSED,
+            player: player,
+            track: track_info
+        }))
+    }
 }

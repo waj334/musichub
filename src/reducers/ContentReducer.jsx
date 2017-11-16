@@ -5,6 +5,11 @@ const initialState = {
     content: {
         type: Constants.CONT_ANY,
         id: null
+    },
+    data: {
+        Collection: {
+            title: ""
+        }
     }
 }
 

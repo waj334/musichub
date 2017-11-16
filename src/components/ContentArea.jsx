@@ -6,6 +6,7 @@ import CatalogView from '../views/CatalogView.jsx';
 import CollectionView from '../views/CollectionView.jsx';
 
 import * as ContentActions from '../actions/ContentActions.jsx';
+import * as AudioActions from '../actions/AudioActions.jsx';
 import * as Constants from '../Constants';
 
 function mapStateToProps(state) {
@@ -13,13 +14,15 @@ function mapStateToProps(state) {
     return {
         isLoading: state.contentReducer.isLoading,
         data: state.contentReducer.data,
-        content: state.contentReducer.content
+        content: state.contentReducer.content,
+        player: state.audioReducer.player
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        load: content => dispatch(ContentActions.load(content))
+        load: content => dispatch(ContentActions.load(content)),
+        loadAudio: url => dispatch(AudioActions.loadAudio(url))
     }
 }
 
@@ -30,6 +33,7 @@ class ContentArea extends Component {
 
         this.catalogOnClick = this.catalogOnClick.bind(this);
         this.display = this.display.bind(this);
+        this.onLoad = this.onLoad.bind(this);
     }
 
     componentDidMount() {
@@ -48,7 +52,7 @@ class ContentArea extends Component {
                     var p = this.catalogProps();
                     return <CatalogView data={p} onClick={this.catalogOnClick} />
                 case Constants.CONT_COLLECTION:
-                    return <CollectionView data={this.props.data} />
+                    return <CollectionView data={this.props.data} loadAudio={this.onLoad} />
             }
         }
     }
@@ -72,6 +76,10 @@ class ContentArea extends Component {
         }, this)
 
         return list;
+    }
+
+    onLoad(track_info) {
+        this.props.loadAudio(track_info);
     }
 
     render() {

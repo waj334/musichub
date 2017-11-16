@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
 import {Table, Header} from 'semantic-ui-react';
 
 import TrackRow from '../components/TrackRow.jsx';
+
 
 class CollectionView extends Component {
     constructor(props) {
@@ -12,7 +14,11 @@ class CollectionView extends Component {
     }
 
     onClick(track) {
-        alert("Track " + track + " selected!");
+        var track_data = this.props.data.Tracks.find((t) => {
+            return t.track === track;
+        })
+
+        this.props.loadAudio(track_data);
     }
 
     trackRow(d,i) {

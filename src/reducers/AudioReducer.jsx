@@ -20,6 +20,7 @@ export default function AudioReducer(state = initialState, action) {
         console.log(action)
             return {...initialState, isReady: true, state: Constants.PLAYER_PLAYING, player: action.state.player, track: action.state.track}
         case Constants.AUDIO_PAUSE:
+        console.log("AudioReducer - pause", action)
             return {...initialState, isReady: true, state: Constants.PLAYER_PAUSED, player: action.state.player, track: action.state.track}
         default:
             return state;

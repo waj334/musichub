@@ -1,7 +1,8 @@
 import * as Constants from '../Constants';
 import * as Howler from 'howler';
+import * as API from '../api/Api.jsx';
 
-export function audioLoad(url, player=null) {
+export function ActionAudioLoad(url, player=null) {
     return {
         type: Constants.AUDIO_LOAD,
         isReady: false,
@@ -11,7 +12,7 @@ export function audioLoad(url, player=null) {
     }
 }
 
-export function audioLoadSuccess(player, track) {
+export function ActionAudioLoadSuccess(player, track) {
     return {
         type: Constants.AUDIO_LOAD_SUCCESS,
         isReady: true,
@@ -20,7 +21,7 @@ export function audioLoadSuccess(player, track) {
     }
 }
 
-export function audioLoadErr(message) {
+export function ActionAudioLoadErr(message) {
     return {
         type: Constants.AUDIO_LOAD_ERR,
         isReady: false,
@@ -28,16 +29,30 @@ export function audioLoadErr(message) {
     }
 }
 
-export function audioPlay(state) {
+export function ActionAudioPlay(state) {
     return {
         type: Constants.AUDIO_PLAY,
         state
     }
 }
 
-export function audioPause(state) {
+export function ActionAudioPause(state) {
     return {
         type: Constants.AUDIO_PAUSE,
+        state
+    }
+}
+
+export function ActionAudioNext(state) {
+    return {
+        type: Constants.AUDIO_NEXT,
+        state
+    }
+}
+
+export function ActionAudioPrev(state) {
+    return {
+        type: Constants.AUDIO_PREV,
         state
     }
 }
@@ -45,7 +60,7 @@ export function audioPause(state) {
 export function loadAudio(track_info) {
     console.log('loadAudio', track_info)
     return (dispatch) => {
-        dispatch(audioLoad(track_info.src))
+        dispatch(ActionAudioLoad(track_info.src))
         
         global.Howler.unload();
 
@@ -55,7 +70,7 @@ export function loadAudio(track_info) {
         })
 
         player.on('load', () => {
-            dispatch(audioLoadSuccess(player, track_info));
+            dispatch(ActionAudioLoadSuccess(player, track_info));
             dispatch(playAudio(player, track_info));
         });
 
@@ -69,8 +84,8 @@ export function playAudio(player, track_info) {
         player.play()
 
         //Signal UI
-        console.log("Playing", player)
-        dispatch(audioPlay({
+        console.log("Playing", player, track_info)
+        dispatch(ActionAudioPlay({
             status: Constants.PLAYER_PLAYING,
             player: player,
             track: track_info
@@ -79,12 +94,39 @@ export function playAudio(player, track_info) {
 }
 
 export function pauseAudio(player, track_info) {
+    console.log("AudioAction - pause", track_info)
     return (dispatch) => {
         player.pause();
-        dispatch(audioPause({
+        dispatch(ActionAudioPause({
             status: Constants.PLAYER_PAUSED,
             player: player,
             track: track_info
         }))
+    }
+}
+
+export function nextTrack(track_info) {
+    return (dispatch) => {
+        var track_list = API.APIGetTrackListByCollectionId(track_info.catalog).Tracks
+
+        if (track_list != undefined) {
+            track_list.map( (o,i) => {
+                if (o.track === track_info.track+1)
+                    dispatch(loadAudio(o))
+            })
+        }
+    }
+}
+
+export function prevTrack(track_info) {
+    return (dispatch) => {
+        var track_list = API.APIGetTrackListByCollectionId(track_info.catalog).Tracks
+
+        if (track_list != undefined) {
+            track_list.map( (o,i) => {
+                if (o.track === track_info.track-1)
+                    dispatch(loadAudio(o))
+            })
+        }
     }
 }

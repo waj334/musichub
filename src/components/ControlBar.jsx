@@ -24,8 +24,10 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         load: content => dispatch(ContentActions.load(content)),
-        play: player => dispatch(AudioActions.playAudio(player)),
-        pause: player => dispatch(AudioActions.pauseAudio(player))
+        play: (player, track) => dispatch(AudioActions.playAudio(player, track)),
+        pause: (player, track) => dispatch(AudioActions.pauseAudio(player, track)),
+        next: (track) => dispatch(AudioActions.nextTrack(track)),
+        prev: (track) => dispatch(AudioActions.prevTrack(track)),
     }
 }
 
@@ -36,6 +38,8 @@ class ControlBar extends Component {
 
         this.onClick = this.onClick.bind(this);
         this.onPlay = this.onPlay.bind(this);
+        this.onNext = this.onNext.bind(this);
+        this.onPrev = this.onPrev.bind(this);
         this.status = this.status.bind(this);
     }
 
@@ -49,19 +53,33 @@ class ControlBar extends Component {
     onPlay() {
         if (this.props.isReady)
         {
-            if (this.props.state === Constants.PLAYER_PLAYING)
-                this.props.pause(this.props.player);
-            else
-                this.props.play(this.props.player);
+            if (this.props.state === Constants.PLAYER_PLAYING) {
+                console.log("Track Pause", this.props)
+                this.props.pause(this.props.player, this.props.track);
+            }
+            else {
+                this.props.play(this.props.player, this.props.track);
+            }
         }
+    }
+
+    onNext() {
+        this.props.next(this.props.track)
+    }
+
+    onPrev() {
+        this.props.prev(this.props.track)
     }
 
     status() {
         var track = " ";
         var album = " ";
         
-        if (this.props.content.type ===  Constants.CONT_COLLECTION) {
+        if (this.props.track != undefined) {
             track = this.props.track.name;
+        }
+
+        if (this.props.collection != undefined) {
             album = this.props.collection.title
         }
 
@@ -74,8 +92,7 @@ class ControlBar extends Component {
             <Grid.Row>
                 <Grid.Column floated='left'>
                     <Button onClick={this.onClick}>
-                        <Icon name='arrow left' />
-                        Back
+                        <Icon name='arrow left' /> Back
                     </Button>
                 </Grid.Column>
                 <Grid.Column>
@@ -85,9 +102,9 @@ class ControlBar extends Component {
                 </Grid.Column>
                 <Grid.Column floated='right'>
                     <Button.Group floated='right'>
-                        <Button icon='step backward' />
-                        <Button icon={this.props.state === Constants.PLAYER_PAUSED || this.props.state === undefined ? 'play':'pause'} onClick={this.onPlay}/>
-                        <Button icon='step forward' />
+                        <Button icon='step backward' onClick={this.onPrev} />
+                        <Button icon={this.props.state === Constants.PLAYER_PAUSED || this.props.player === null ? 'play':'pause'} onClick={this.onPlay}/>
+                        <Button icon='step forward' onClick={this.onNext} />
                     </Button.Group>
                 </Grid.Column>
             </Grid.Row>

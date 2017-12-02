@@ -40,46 +40,55 @@ export const CATALOG = [
 
 const A1_INDEX = [
     {
+        catalog: 1,
         track: 1,
         name: "1 Of These Dayz",
         src: "https://s3.amazonaws.com/a1music/index/Faded-v3.mp3"
     },
     {
+        catalog: 1,
         track: 2,
         name: "Awkwardly Amazing",
         src: "https://s3.amazonaws.com/a1music/index/Awkwardly+Amazing+-+v4.mp3"
     },
     {
+        catalog: 1,
         track: 3,
         name: "Bad Sh!T",
         src: "https://s3.amazonaws.com/a1music/index/Bad+Shit+-+v2.mp3"
     },
     {
+        catalog: 1,
         track: 4,
         name: "Hey You",
         src: "https://s3.amazonaws.com/a1music/index/Hey+You+-+v6.mp3"
     },
     {
+        catalog: 1,
         track: 5,
         name: "Ion Even Know",
         src: "https://s3.amazonaws.com/a1music/index/Ion+even+know.mp3"
     },
     {
+        catalog: 1,
         track: 6,
         name: "Isolation",
         src: "https://s3.amazonaws.com/a1music/index/Isolation+-+v5.mp3"
     },
     {
+        catalog: 1,
         track: 7,
         name: "Life Go",
         src: "https://s3.amazonaws.com/a1music/index/Life+Go.mp3"
     },
     {
+        catalog: 1,
         track: 8,
         name: "Lustful Bliss",
         src: "https://s3.amazonaws.com/a1music/index/Lustful+Bliss+-+v5.mp3"
     },
     {
+        catalog: 1,
         track: 9,
         name: "Miss Mystery",
         src: "https://s3.amazonaws.com/a1music/index/Miss+Mystery+-+v2.mp3"
@@ -88,46 +97,55 @@ const A1_INDEX = [
 
 const A1_THE_INTRO = [
     {
+        catalog: 0,
         track: 1,
         name: "Bottom",
         src: "https://s3.amazonaws.com/a1music/the_intro/Bottom+-+v2.mp3"
     },
     {
+        catalog: 0,
         track: 2,
         name: "Pillar",
         src: "https://s3.amazonaws.com/a1music/the_intro/Pillar-v2.mp3"
     },
     {
+        catalog: 0,
         track: 3,
         name: "Chillin Between",
         src: "https://s3.amazonaws.com/a1music/the_intro/Chillin+Between-v2.mp3"
     },
     {
+        catalog: 0,
         track: 4,
         name: "In The Moment",
         src: "https://s3.amazonaws.com/a1music/the_intro/In+The+Moment-v2.mp3"
     },
     {
+        catalog: 0,
         track: 5,
         name: "Old Wayz",
         src: "https://s3.amazonaws.com/a1music/the_intro/Old+Wayz.mp3"
     },
     {
+        catalog: 0,
         track: 6,
         name: "Look Back",
         src: "https://s3.amazonaws.com/a1music/the_intro/Look+Back-v2.mp3"
     },
     {
+        catalog: 0,
         track: 7,
         name: "Found Swag",
         src: "https://s3.amazonaws.com/a1music/the_intro/Found+Swag.mp3"
     },
     {
+        catalog: 0,
         track: 8,
         name: "Denial's Anthem",
         src: "https://s3.amazonaws.com/a1music/the_intro/Denial's+Anthem.mp3"
     },
     {
+        catalog: 0,
         track: 9,
         name: "Paranioa (At the top)",
         src: "https://s3.amazonaws.com/a1music/the_intro/Paranoia-v2.mp3"

@@ -17,7 +17,7 @@ class App extends Component {
     return (
       <Provider store={store}>
         <div style={{minHeight:'100vh'}}>
-          <Segment>
+          <Segment style={{'padding': '0.5em'}}>
             <ControlBar/>
           </Segment>
           <Container fluid style={{height:'100%', display:'block'}}>
